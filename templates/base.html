@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Recursos Hospitalarios{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="min-h-screen flex flex-col text-white
+             {% block body_class %}{% endblock %}">
+             {% block body_overlay %}{% endblock %}
+
+
+  <!-- NAV translucida -->
+  <nav class="glass backdrop-blur-lg px-6 py-3 mx-4 mt-4 flex justify-between items-center">
+      <span class="font-semibold text-lg drop-shadow">Recursos Hospitalarios</span>
+
+      {% if current_user.is_authenticated %}
+        <div class="space-x-6 font-medium">
+          <a href="{{ url_for('dashboard') }}" class="hover:underline">Dashboard</a>
+          {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('users') }}" class="hover:underline">Usuarios</a>
+          {% endif %}
+          <a href="{{ url_for('logout') }}" class="hover:underline">Salir</a>
+        </div>
+      {% endif %}
+  </nav>
+
+  <main class="flex-grow flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-4xl">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div id="flash-container">
+            {% for cat, msg in messages %}
+              <div class="flash-box {{ 'flash-success' if cat=='success' else 'flash-error' }}">
+                {{ msg }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  {# ─── SCRIPTS ──────────────────────────────── #}
+  {% block scripts %}
+  <script>
+    // Desvanece los mensajes flash tras 3 s
+    document.querySelectorAll('#flash-container .flash-box').forEach(el => {
+      setTimeout(() => {
+        el.style.transition = 'opacity .4s';
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 400);
+      }, 3000); // 3000 ms visibles
+    });
+  </script>
+  {% endblock %}
+  <!-- en tu base.html antes de </body> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+

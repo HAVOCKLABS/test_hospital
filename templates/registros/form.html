@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import "macros/fields.html" as f %}
+
+{% block body_class %}
+  bg-[url('/static/img/fondo-form.jpg')] bg-cover bg-center flex items-center justify-center
+{% endblock %}
+
+{% block body_overlay %}
+  <div class="absolute inset-0 bg-black/50 -z-10 pointer-events-none"></div>
+{% endblock %}
+
+{% block content %}
+<!-- ⬇️  ya NO necesitas min-h-screen ni bg-hospital aquí -->
+<div class="w-full max-w-5xl bg-white/10 backdrop-blur-lg
+            rounded-2xl shadow-xl p-8 relative z-10">
+  <h1 class="text-3xl text-center font-bold text-white mb-6">
+    {{ 'Editar registro' if editar else 'Nuevo registro' }}
+  </h1>
+
+  <form method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {{ f.render(form.fecha) }}         {{ f.render(form.turno) }}
+      {{ f.render(form.numero_medidor) }}{{ f.render(form.multiplicador) }}
+      {{ f.render(form.hora_captura) }}
+
+      {{ f.render(form.rt) }}            {{ f.render(form.a_kwh_d) }}
+      {{ f.render(form.a_max_kw_d) }}    {{ f.render(form.time_a) }}
+      {{ f.render(form.b_kwh_d) }}       {{ f.render(form.b_max_kw_d) }}
+      {{ f.render(form.time_b) }}        {{ f.render(form.c_kwh_d) }}
+      {{ f.render(form.c_max_kw_d) }}    {{ f.render(form.time_c) }}
+      {{ f.render(form.kwh_total) }}     {{ f.render(form.kvarh_d) }}
+      {{ f.render(form.factor_potencia) }}
+    </div>
+
+    <div class="mt-8 flex justify-center">
+      <button class="bg-teal-500 hover:bg-teal-600 text-white
+                     font-semibold px-8 py-2 rounded-xl shadow">
+        {{ form.submit.label.text }}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

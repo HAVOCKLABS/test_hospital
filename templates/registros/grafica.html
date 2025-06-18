@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl text-white font-bold mb-6">
+    Tendencia de KWH y factor de potencia
+  </h1>
+
+  <canvas id="chart" height="120"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const ctx = document.getElementById('chart');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{ labels|tojson }},
+    datasets: [
+      {
+        label: 'KWH',
+        data: {{ kwh|tojson }},
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 3
+      },
+      {
+        label: 'Factor de Potencia',
+        data: {{ fp|tojson }},
+        yAxisID: 'y1',
+        borderDash: [4,4],
+        borderWidth: 2,
+        pointRadius: 3
+      }
+    ]
+  },
+  options: {
+    scales: {
+      y:  { title: { text: 'KWH', display: true } },
+      y1: { position: 'right',
+            title: { text: 'F.P.', display: true },
+            ticks: { max: 1.0, min: 0, stepSize: 0.1 } }
+    }
+  }
+});
+</script>
+{% endblock %}

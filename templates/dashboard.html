@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Consumos</title>
+
+  <!-- Tailwind & Plotly -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<!-- 1️⃣  Imagen de fondo -->
+<body class="relative min-h-screen flex flex-col items-center pt-10
+             bg-[url('/static/img/fondo-hospital.png')] bg-cover bg-center">
+
+  <!-- 2️⃣  Capa de oscurecimiento -->
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <!-- 3️⃣  Contenido → por encima del overlay -->
+  <main class="relative z-10 w-full flex flex-col items-center space-y-8">
+
+    <!-- ▒ NAV BAR redondeada ▒ -->
+    <nav class="w-[90%] max-w-4xl px-6 py-3
+                bg-white/15 backdrop-blur-md rounded-full shadow-lg
+                flex justify-between items-center text-white font-medium">
+      <span>Dashboard</span>
+      <div class="space-x-4 text-sm">
+        <!--<a href="{{ url_for('dashboard') }}"       class="hover:underline">Inicio</a>-->
+        <!--<a href="{{ url_for('grafica') }}"         class="hover:underline">Gráfica</a>-->
+        <a href="{{ url_for('registros.index') }}" class="hover:underline">Registros</a>
+        <a href="{{ url_for('logout') }}"          class="hover:underline">Salir</a>
+      </div>
+    </nav>
+
+    <!-- ▒ TARJETA CON GRÁFICA ▒ -->
+    <section class="w-[90%] max-w-4xl p-6
+                    bg-white/15 backdrop-blur-md rounded-xl shadow-lg">
+      <h2 class="text-white text-xl font-semibold mb-4">
+        Consumo diario&nbsp;(kWh)
+      </h2>
+      <div id="grafico-mini" class="w-full h-80 md:h-96"></div>
+    </section>
+  </main>
+
+  <!-- 4️⃣  Script Plotly -->
+ <!-- ▒ Script Plotly ▒ -->
+<script>
+  const fechas = {{ fechas|safe }};
+  const kwh    = {{ kwh|safe }};
+
+  /* ───── CONFIGURACIÓN ───── */
+  const trace  = { x: fechas, y: kwh, mode: 'lines+markers',  line:   { width: 2, color: '#14B8A6' },
+                   name: 'kWh' };
+
+  const layout = {
+    autosize: true,
+    margin: { t: 10, r: 10, b: 40, l: 40 },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor:  'rgba(0,0,0,0)',
+    font: { color: 'white' },
+    xaxis: { tickangle: -45 }
+  };
+
+  /* ①  Dale interacción:  quita staticPlot o ponlo en false */
+  const config = {
+    staticPlot: false,    // ← AHORA sí permite zoom/hover
+    displayModeBar: false, // true si quieres la barra de iconos
+    displaylogo: false,
+    responsive: true,
+    useResizeHandler: true
+  };
+
+  Plotly.newPlot('grafico-mini', [trace], layout, config);
+</script>
+</body>
+</html>

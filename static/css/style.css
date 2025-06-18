@@ -1,0 +1,61 @@
+/* Fondo hospital + oscurecido */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-image: url("/static/img/fondo-hospital.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;      /* parallax suave */
+}
+
+body::before {                         /* capa de oscurecido */
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: -1;
+}
+
+/* Tarjetas translúcidas */
+.glass {
+    background: rgba(255, 255, 255, 0.15);     /* transparencia */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Mensajes flash */
+.flash-success { background: rgba(34,197,94,0.25); }
+.flash-error   { background: rgba(239,68,68,0.25); }
+/* ==== FLASH MESSAGES =================================================== */
+#flash-container{
+    position:fixed;
+    top:5.5rem;              /* ⬅  antes 1.25rem  */
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:.5rem;
+    pointer-events:none;     /* evita que tapen botones/menu */
+
+}
+
+.flash-box{
+    @apply glass px-4 py-2 text-center text-sm;
+    display:inline-block;         /* ancho = solo lo que ocupe el texto     */
+    animation:fade-slide .35s ease-out;
+}
+
+/* colores (ya existen… los re-usamos)  */
+.flash-success{ @apply flash-success; }
+.flash-error  { @apply flash-error;   }
+
+/* pequeña animación de entrada          */
+@keyframes fade-slide{
+    from{ opacity:0; transform:translateY(-10px); }
+    to  { opacity:1; transform:translateY(0);      }
+}

@@ -1,0 +1,16 @@
+{# templates/macros/fields.html #}
+{% macro render(field) -%}
+<div>
+  {{ field.label(class="block text-sm font-semibold text-white mb-1") }}
+
+  {{ field(
+        class="w-full bg-white/20 placeholder-white/70 text-white
+               rounded-xl px-3 py-2 backdrop-blur
+               focus:ring-2 focus:ring-teal-400 outline-none")
+  }}
+
+  {% if field.errors %}
+    <p class="text-red-300 text-xs mt-1">{{ field.errors[0] }}</p>
+  {% endif %}
+</div>
+{%- endmacro %}

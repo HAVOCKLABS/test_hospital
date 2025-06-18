@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<div class="glass p-8">
+  <h1 class="text-2xl font-bold mb-6 drop-shadow">Administrar usuarios</h1>
+
+  <!-- Alta -->
+  <form method="post" action="{{ url_for('add_user') }}" class="flex flex-wrap gap-4 mb-8">
+    <input name="username" placeholder="Nuevo usuario"
+           class="flex-1 min-w-[150px] p-2 rounded bg-white/20 placeholder-gray-200" required>
+    <input type="password" name="password" placeholder="Contraseña"
+           class="flex-1 min-w-[150px] p-2 rounded bg-white/20 placeholder-gray-200" required>
+    <select name="role" class="p-2 rounded bg-white/20">
+      <option value="registrar">registrar</option>
+      <option value="admin">admin</option>
+    </select>
+    <button class="px-4 rounded bg-green-600/80 hover:bg-green-600 shadow">Crear</button>
+  </form>
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead>
+        <tr class="uppercase text-sm tracking-wider text-gray-200/80">
+          <th class="pb-2">Usuario</th>
+          <th class="pb-2">Rol</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for u in users %}
+        <tr class="border-t border-white/20">
+          <td class="py-2">{{ u.username }}</td>
+          <td class="py-2">{{ u.role }}</td>
+          <td class="py-2 text-right">
+            {% if u.id != current_user.id %}
+            <form method="post" action="{{ url_for('delete_user', user_id=u.id) }}"
+                  onsubmit="return confirm('¿Eliminar {{u.username}}?')">
+              <button class="text-red-300 hover:text-red-400">Eliminar</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
