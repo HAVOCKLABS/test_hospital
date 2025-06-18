@@ -7,5 +7,6 @@ Flask-Migrate==4.0.5      # ← nuevo
 gunicorn==23.0.0
 python-magic==0.4.27
 Werkzeug>=3.0
+pandas==2.2.3 
 # Si tu Base de Datos es Postgres, agrega:
 # psycopg2-binary==2.9.9
