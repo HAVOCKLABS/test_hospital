@@ -1,7 +1,57 @@
-Flask==3.1.1
-Flask-Login==0.6.3
-Flask-SQLAlchemy==3.1.1
-Flask-WTF==1.2.2
-gunicorn==23.0.0
-python-magic==0.4.27
-Werkzeug>=3.0
+# ——————————————————————————————
+# Librerías científicas, CV y ML
+# ——————————————————————————————
+absl-py==2.2.0
+attrs==25.3.0
+cffi==1.17.1
+colorama==0.4.6
+contourpy==1.3.1
+cycler==0.12.1
+flatbuffers==25.2.10
+fonttools==4.56.0
+future==1.0.0
+iso8601==2.1.0
+jax==0.5.3
+jaxlib==0.5.3
+kiwisolver==1.4.8
+matplotlib==3.10.1
+mediapipe==0.10.21
+ml_dtypes==0.5.1
+numpy==1.26.4
+opencv-contrib-python==4.11.0.86
+opencv-python==4.11.0.86
+openpyxl==3.1.5
+opt_einsum==3.4.0
+packaging==24.2
+pandas==2.2.3
+pillow==11.1.0
+protobuf==4.25.6
+PyAudio==0.2.14         # Requiere PortAudio ➜ solo local
+pycparser==2.22
+pyparsing==3.2.1
+python-dateutil==2.9.0.post0
+pytz==2025.2
+qrcode==8.1
+scipy==1.15.2
+sentencepiece==0.2.0
+six==1.17.0
+sounddevice==0.5.1       # Captura/ reproducción audio local
+SpeechRecognition==3.14.1
+typing_extensions==4.12.2
+tzdata==2025.2
+
+# ——————————————————————————————
+# Hardware / Puertos serie
+# ——————————————————————————————
+pyserial==3.5
+serial==0.0.97
+SerialPy==0.1.0
+traceroute==19.2.0
+
+# ——————————————————————————————
+# Seguridad, utilidades y otros
+# ——————————————————————————————
+cryptography==45.0.4
+python-gnupg==0.5.4
+PyYAML==6.0.2
+python-magic==0.4.27     # Versión multiplataforma (sustituto de python-magic-bin)
