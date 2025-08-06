@@ -1,26 +1,51 @@
 {% extends 'base.html' %}
+{% set hide_navbar = true %}
+
 {% block title %}Login — Recursos{% endblock %}
 
 {% block content %}
-<div class="glass max-w-sm mx-auto p-8">
-  <h2 class="text-2xl font-bold mb-6 text-center drop-shadow">Iniciar sesión</h2>
+  <div class="flex justify-center mb-6">
+    <img
+      src="{{ url_for('static', filename='img/tu_logo.png') }}"
+      alt="Logo"
+      class="h-20 w-auto"
+    />
+  </div>
 
-  <form method="post">
-    <div class="space-y-4">
-      <label class="block">
-        <span class="text-sm">Usuario</span>
-        <input name="username" class="w-full p-2 rounded bg-white/20 placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="usuario" required>
-      </label>
+  <div class="glass max-w-sm mx-auto p-8">
+    <h2 class="text-2xl font-bold mb-6 text-center drop-shadow">Iniciar sesión</h2>
+    <form method="post">
+      <div class="space-y-4">
+        <label class="block">
+          <span class="text-sm">Usuario</span>
+          <input
+            name="username"
+            class="w-full p-2 rounded bg-white/20 placeholder-gray-200
+                   focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="usuario"
+            required
+          >
+        </label>
 
-      <label class="block">
-        <span class="text-sm">Contraseña</span>
-        <input type="password" name="password" class="w-full p-2 rounded bg-white/20 placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="••••••••" required>
-      </label>
+        <label class="block">
+          <span class="text-sm">Contraseña</span>
+          <input
+            type="password"
+            name="password"
+            class="w-full p-2 rounded bg-white/20 placeholder-gray-200
+                   focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="••••••••"
+            required
+          >
+        </label>
 
-      <button class="w-full py-2 rounded bg-blue-600/80 hover:bg-blue-600 font-semibold shadow">Entrar</button>
-    </div>
-  </form>
-</div>
+        <button
+          class="w-full py-2 rounded bg-blue-600/80 hover:bg-blue-600
+                 font-semibold shadow"
+        >
+          Entrar
+        </button>
+      </div>
+    </form>
+  </div>
 {% endblock %}
-
-
