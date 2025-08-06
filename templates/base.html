@@ -2,21 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Sistema Integral de Gestion de Recursos Hospitalarios{% endblock %}</title>
+  <title>{% block title %}Recursos Hospitalarios{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
-<body class="min-h-screen flex flex-col text-white
-             {% block body_class %}{% endblock %}">
-             {% block body_overlay %}{% endblock %}
-
+<body class="min-h-screen flex flex-col text-white">
 
   <!-- NAV translucida -->
-  {% if not hide_navbar %}
   <nav class="glass backdrop-blur-lg px-6 py-3 mx-4 mt-4 flex justify-between items-center">
-      <span class="font-semibold text-lg drop-shadow absolute left-1/2 transform -translate-x-1/2">SIGR</span>
-    
+      <span class="font-semibold text-lg drop-shadow">Recursos Hospitalarios</span>
 
       {% if current_user.is_authenticated %}
         <div class="space-x-6 font-medium">
@@ -61,8 +55,8 @@
     });
   </script>
   {% endblock %}
-  <!-- en tu base.html antes de </body> -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
+
+
 
