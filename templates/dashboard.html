@@ -1,90 +1,48 @@
 {% extends 'base.html' %}
 {% set hide_navbar = false %}
 
-{% block title %}Dashboard SIGR{% endblock %}
+{% block title %}Dashboard — Recursos{% endblock %}
 
-{% block body_class %}
-min-h-screen bg-[url('{{ url_for('static', filename='img/fondo-hospital.png') }}')] bg-cover bg-center flex flex-col items-center py-8
-{% endblock %}
-
-{% block body_overlay %}
-  <div class="absolute inset-0 bg-black/50 -z-10 pointer-events-none"></div>
-{% endblock %}
+{% block body_class %}min-h-screen bg-[url('{{ url_for('static', filename='img/fondo-hospital.png') }}')] bg-cover bg-center flex flex-col items-center py-8{% endblock %}
 
 {% block content %}
-  <div class="glass max-w-6xl mx-auto p-8 rounded-2xl shadow-lg mb-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+  <div class="glass max-w-6xl mx-auto p-8 rounded-2xl shadow-lg">
+    <!-- GRID WIDGETS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Oxígeno -->
-      <div data-modal-target="modal-oxigeno"
-           class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4">Oxígeno</h3>
-        <!-- Aquí va tu SVG y los valores para Oxígeno -->
+      <div data-modal-target="modal-oxigeno" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400 mb-4">Oxígeno</h3>
+        <!-- SVG y valores -->
       </div>
-
       <!-- Nivel Agua -->
-      <div data-modal-target="modal-agua"
-           class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4">Nivel Agua</h3>
-        <!-- Aquí va tu SVG y los valores para Agua -->
+      <div data-modal-target="modal-agua" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400 mb-4">Nivel Agua</h3>
       </div>
-
       <!-- Consumo Eléctrico -->
-      <div data-modal-target="modal-electrico"
-           class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4">Consumo Eléctrico</h3>
-        <!-- Aquí va tu SVG y los valores para Eléctrico -->
+      <div data-modal-target="modal-electrico" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400 mb-4">Consumo Eléctrico</h3>
       </div>
-
       <!-- Cilindros -->
-      <div data-modal-target="modal-cilindros"
-           class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-lg font-semibold text-blue-400 mb-4">Cilindros</h3>
-        <!-- Aquí va tu SVG y texto de registro Cilindros -->
+      <div data-modal-target="modal-cilindros" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
+        <h3 class="text-xl font-semibold text-blue-400 mb-4">Cilindros</h3>
       </div>
     </div>
-  </div>
-
-  <!-- Historial Reciente -->
-  <div class="glass max-w-6xl mx-auto p-8 rounded-2xl shadow-lg">
-    <h2 class="text-xl font-semibold text-white mb-4">Historial Reciente</h2>
-    <div class="overflow-x-auto">
-      <table class="w-full text-white text-sm bg-white/10 rounded-lg">
-        <thead>
-          <tr class="bg-white/20 text-blue-400">
-            <th class="py-2 px-4">Hora</th>
-            <th class="py-2 px-4">Presión</th>
-            <th class="py-2 px-4">Flujo</th>
-            <th class="py-2 px-4">Nivel Agua</th>
-            <th class="py-2 px-4">Consumo</th>
-            <th class="py-2 px-4">Cilindros</th>
-            <th class="py-2 px-4">Obs.</th>
+    <!-- Historial Reciente -->
+    <div class="mt-8 overflow-x-auto">
+      <table class="w-full text-white text-sm bg-white/20 rounded-lg">
+        <thead class="bg-white/10">
+          <tr>
+            <th class="py-2 px-4">Hora</th><th class="py-2 px-4">Presión</th><th class="py-2 px-4">Flujo</th><th class="py-2 px-4">Nivel Agua</th><th class="py-2 px-4">Consumo</th><th class="py-2 px-4">Cilindros</th><th class="py-2 px-4">Obs.</th>
           </tr>
         </thead>
         <tbody>
-        {% for registro in registros %}
-          <tr class="border-b border-white/20">
-            <td class="py-2 px-4">{{ registro.hora }}</td>
-            <td class="py-2 px-4">{{ registro.presion }} psi</td>
-            <td class="py-2 px-4 {% if registro.flujo < flujo_minimo %}text-red-400{% endif %}">
-              {{ registro.flujo }} L/min
-            </td>
-            <td class="py-2 px-4">{{ registro.nivel }}%</td>
-            <td class="py-2 px-4">{{ registro.consumo }} kWh</td>
-            <td class="py-2 px-4">
-              <a href="{{ url_for('cilindros.formulario') }}" class="text-blue-400 hover:underline">
-                Registrar
-              </a>
-            </td>
-            <td class="py-2 px-4 {% if registro.flujo < flujo_minimo %}text-red-400{% endif %}">
-              {{ registro.observacion }}
-            </td>
+          {% for r in registros %}
+          <tr class="border-b border-white/10">
+            <td class="py-2 px-4">{{ r.hora }}</td><td class="py-2 px-4">{{ r.presion }} psi</td><td class="py-2 px-4 {% if r.flujo < flujo_minimo %}text-red-400{% endif %}">{{ r.flujo }} L/min</td><td class="py-2 px-4">{{ r.nivel }}%</td><td class="py-2 px-4">{{ r.consumo }} kWh</td><td class="py-2 px-4"><a href="{{ url_for('cilindros.formulario') }}" class="text-blue-400 hover:underline">Registrar</a></td><td class="py-2 px-4 {% if r.flujo < flujo_minimo %}text-red-400{% endif %}">{{ r.observacion }}</td>
           </tr>
-        {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-
-  {% include 'dashboard_modals.html' %}
-  {% include 'dashboard_scripts.html' %}
 {% endblock %}
