@@ -1,0 +1,119 @@
+<!-- Modal Oxígeno -->
+<div id="modal-oxigeno" class="sigr-modal">
+  <div class="sigr-modal-content">
+    <button class="sigr-modal-close">&times;</button>
+    <h3 class="text-xl font-bold mb-4">Tanques de Oxígeno – Detalles</h3>
+    <table class="w-full text-white text-sm mb-4">
+      <thead>
+        <tr class="bg-white/10">
+          <th class="py-2 px-3">Parámetro</th>
+          <th class="py-2 px-3">Tanque A</th>
+          <th class="py-2 px-3">Tanque B</th>
+          <th class="py-2 px-3">Unidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-white/10">
+          <td class="py-2 px-3">Presión</td>
+          <td class="py-2 px-3 value" data-param="pressA"></td>
+          <td class="py-2 px-3 value" data-param="pressB"></td>
+          <td class="py-2 px-3">PSIG</td>
+        </tr>
+        <tr class="border-b border-white/10">
+          <td class="py-2 px-3">Flujo</td>
+          <td class="py-2 px-3 value" data-param="flowA"></td>
+          <td class="py-2 px-3 value" data-param="flowB"></td>
+          <td class="py-2 px-3">L/min</td>
+        </tr>
+        <tr>
+          <td class="py-2 px-3">Nivel</td>
+          <td class="py-2 px-3 value" data-param="levelA"></td>
+          <td class="py-2 px-3 value" data-param="levelB"></td>
+          <td class="py-2 px-3">%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-right">
+      <a href="{{ url_for('historico.oxigeno') }}" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+        Ver histórico & gráficos
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Agua -->
+<div id="modal-agua" class="sigr-modal">
+  <div class="sigr-modal-content">
+    <button class="sigr-modal-close">&times;</button>
+    <h3 class="text-xl font-bold mb-4">Detalle: Nivel Agua</h3>
+    <table class="w-full text-white text-sm mb-4">
+      <thead>
+        <tr class="bg-white/10">
+          <th class="py-2 px-4">Hora</th>
+          <th class="py-2 px-4">%</th>
+          <th class="py-2 px-4">Obs.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-white/10">
+          <td class="py-2 px-4">08:00</td>
+          <td class="py-2 px-4">60</td>
+          <td class="py-2 px-4">OK</td>
+        </tr>
+        <tr>
+          <td class="py-2 px-4">09:00</td>
+          <td class="py-2 px-4 text-yellow-300">59</td>
+          <td class="py-2 px-4">Advertencia</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-right">
+      <a href="{{ url_for('historico.agua') }}" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+        Ver histórico & gráficos
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Eléctrico -->
+<div id="modal-electrico" class="sigr-modal">
+  <div class="sigr-modal-content">
+    <button class="sigr-modal-close">&times;</button>
+    <h3 class="text-xl font-bold mb-4">Formato de Toma Tarifa H-M</h3>
+    <table class="w-full text-white text-sm mb-4">
+      <thead>
+        <tr class="bg-white/10">
+          <th class="py-2 px-3">Concepto</th>
+          <th class="py-2 px-3">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for concept in ['A_KWH_D','A_MAX_KW_D','A_TIME','B_KWH_D','B_MAX_KW_D','B_TIME','C_KWH_D','C_MAX_KW_D','C_TIME','TOTAL_KWH_D','KVARH_D'] %}
+        <tr data-concept="{{ concept }}" class="border-b border-white/10">
+          <td class="py-2 px-3">{{ concept }}</td>
+          <td class="py-2 px-3 value-cell"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="text-right">
+      <a href="{{ url_for('historico.consumo') }}" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+        Ver histórico & gráficos
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cilindros -->
+<div id="modal-cilindros" class="sigr-modal">
+  <div class="sigr-modal-content">
+    <button class="sigr-modal-close">&times;</button>
+    <h3 class="text-xl font-bold mb-4">Registro de Cilindros</h3>
+    <p class="mb-4">Para registrar un nuevo cilindro, haz clic en el botón:</p>
+    <div class="text-right">
+      <a href="{{ url_for('cilindros.formulario') }}" class="inline-block px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded">
+        Abrir formulario
+      </a>
+    </div>
+  </div>
+</div>
