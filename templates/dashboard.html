@@ -1,48 +1,321 @@
-{% extends 'base.html' %}
-{% set hide_navbar = false %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard SIGR – Completo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sigr-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .sigr-modal.is-open { display: flex; }
+    .sigr-modal-content {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      max-width: 24rem;
+      width: 90%;
+      color: white;
+      position: relative;
+    }
+    .sigr-modal-close {
+      position: absolute;
+      top: .5rem;
+      right: .5rem;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    /* Glass effect wrapper */
+    .glass {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+    }
+  </style>
+</head>
+<body
+  class="min-h-screen flex flex-col items-center relative py-8"
+  style="background-image: url('file:///C:/Users/flash/Desktop/proyecto recursos hospitalarios/fondo-hospital.png'); background-size: cover; background-position: center;"
+>
+  <!-- Overlay general -->
+  <div class="absolute inset-0 bg-black/50 -z-10 pointer-events-none"></div>
 
-{% block title %}Dashboard — Recursos{% endblock %}
+  <!-- GRID WIDGETS con efecto glass -->
+  <div class="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 glass p-8 shadow-xl mb-12">
 
-{% block body_class %}min-h-screen bg-[url('{{ url_for('static', filename='img/fondo-hospital.png') }}')] bg-cover bg-center flex flex-col items-center py-8{% endblock %}
-
-{% block content %}
-  <div class="glass max-w-6xl mx-auto p-8 rounded-2xl shadow-lg">
-    <!-- GRID WIDGETS -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Oxígeno -->
-      <div data-modal-target="modal-oxigeno" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-xl font-semibold text-blue-400 mb-4">Oxígeno</h3>
-        <!-- SVG y valores -->
+    <!-- 1) Oxígeno -->
+    <div data-modal-target="modal-oxigeno"
+         class="backdrop-blur-md rounded-xl p-6 flex flex-col items-center shadow-lg cursor-pointer transform transition hover:scale-105">
+      <span class="text-lg font-semibold text-blue-400 mb-2">Oxígeno</span>
+      <svg width="120" height="70" class="mb-2">
+        <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#a7f3d0" stroke-width="8"/>
+        <line x1="60" y1="60" x2="50" y2="30" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+        <line x1="60" y1="60" x2="70" y2="25" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="60" cy="60" r="8" fill="#0d9488"/>
+      </svg>
+      <div class="flex space-x-6 mb-1">
+        <div class="text-center">
+          <span class="text-2xl font-bold text-red-400">48</span><br>
+          <span class="text-xs text-gray-200">A psi</span>
+        </div>
+        <div class="text-center">
+          <span class="text-2xl font-bold text-cyan-400">62</span><br>
+          <span class="text-xs text-gray-200">B psi</span>
+        </div>
       </div>
-      <!-- Nivel Agua -->
-      <div data-modal-target="modal-agua" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-xl font-semibold text-blue-400 mb-4">Nivel Agua</h3>
-      </div>
-      <!-- Consumo Eléctrico -->
-      <div data-modal-target="modal-electrico" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-xl font-semibold text-blue-400 mb-4">Consumo Eléctrico</h3>
-      </div>
-      <!-- Cilindros -->
-      <div data-modal-target="modal-cilindros" class="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow cursor-pointer hover:scale-105 transition">
-        <h3 class="text-xl font-semibold text-blue-400 mb-4">Cilindros</h3>
-      </div>
+      <span class="text-xs text-gray-300">Click para detalles</span>
     </div>
-    <!-- Historial Reciente -->
-    <div class="mt-8 overflow-x-auto">
-      <table class="w-full text-white text-sm bg-white/20 rounded-lg">
-        <thead class="bg-white/10">
-          <tr>
-            <th class="py-2 px-4">Hora</th><th class="py-2 px-4">Presión</th><th class="py-2 px-4">Flujo</th><th class="py-2 px-4">Nivel Agua</th><th class="py-2 px-4">Consumo</th><th class="py-2 px-4">Cilindros</th><th class="py-2 px-4">Obs.</th>
+
+    <!-- 2) Nivel Agua -->
+    <div data-modal-target="modal-agua"
+         class="backdrop-blur-md rounded-xl p-6 flex flex-col items-center shadow-lg cursor-pointer transform transition hover:scale-105">
+      <span class="text-lg font-semibold text-blue-400 mb-2">Nivel Agua</span>
+      <svg width="60" height="100" class="mb-4">
+        <rect x="15" y="10" width="30" height="80" rx="15" fill="#bbf7d0"/>
+        <rect x="15" y="50" width="30" height="40" rx="15" fill="#22d3ee"/>
+        <rect x="15" y="10" width="30" height="80" rx="15" fill="none" stroke="#22d3ee" stroke-width="4"/>
+      </svg>
+      <div class="flex items-baseline">
+        <span class="text-2xl font-bold text-white">59</span>
+        <span class="text-sm text-gray-200 ml-1">%</span>
+      </div>
+      <span class="text-xs text-gray-300 mt-1">Advertencia</span>
+    </div>
+
+    <!-- 3) Consumo Eléctrico -->
+    <div data-modal-target="modal-electrico"
+         class="backdrop-blur-md rounded-xl p-6 flex flex-col items-center shadow-lg cursor-pointer transform transition hover:scale-105">
+      <span class="text-lg font-semibold text-blue-400 mb-2">Consumo Eléctrico</span>
+      <svg width="100" height="50" class="mb-4">
+        <rect x="5" y="5" width="90" height="40" rx="8" fill="#fef9c3" stroke="#fde047" stroke-width="2"/>
+        <text x="50" y="33" font-size="22" text-anchor="middle" fill="#ca8a04" font-family="monospace">371 kWh</text>
+      </svg>
+      <div class="flex items-baseline">
+        <span class="text-2xl font-bold text-white">371</span>
+        <span class="text-sm text-gray-200 ml-1">kWh</span>
+      </div>
+      <span class="text-xs text-gray-300 mt-1">Normal</span>
+    </div>
+
+    <!-- 4) Cilindros -->
+    <div data-modal-target="modal-cilindros"
+         class="backdrop-blur-md rounded-xl p-6 flex flex-col items-center shadow-lg cursor-pointer transform transition hover:scale-105">
+      <span class="text-lg font-semibold text-blue-400 mb-2">Cilindros</span>
+      <svg width="60" height="80" class="mb-4" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="2" width="12" height="28" rx="2" stroke="#a5b4fc" stroke-width="2" fill="rgba(165,180,252,0.2)"/>
+        <line x1="6" y1="8" x2="18" y2="8" stroke="#6366f1" stroke-width="1.5"/>
+      </svg>
+      <span class="text-xs text-gray-300">Click para registrar</span>
+    </div>
+
+  </div>
+
+  <!-- HISTORIAL RECIENTE -->
+  <div class="w-full max-w-6xl overflow-x-auto px-4 glass p-8 rounded-2xl shadow-xl mb-12">
+    <h2 class="text-xl font-semibold text-white mb-4">Historial Reciente</h2>
+    <table class="min-w-full text-white text-sm bg-transparent">
+      <thead>
+        <tr class="bg-white/10 text-blue-400">
+          <th class="py-2 px-4">Hora</th>
+          <th class="py-2 px-4">Presión</th>
+          <th class="py-2 px-4">Flujo</th>
+          <th class="py-2 px-4">Nivel Agua</th>
+          <th class="py-2 px-4">Consumo</th>
+          <th class="py-2 px-4">Cilindros</th>
+          <th class="py-2 px-4">Obs.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-white/10">
+          <td class="py-2 px-4">08:00</td>
+          <td class="py-2 px-4">62 psi</td>
+          <td class="py-2 px-4">14 L/min</td>
+          <td class="py-2 px-4">59 %</td>
+          <td class="py-2 px-4">371 kWh</td>
+          <td class="py-2 px-4"><a href="/cilindros/formulario" class="text-blue-400 hover:underline">Registrar</a></td>
+          <td class="py-2 px-4">OK</td>
+        </tr>
+        <tr class="border-b border-white/10">
+          <td class="py-2 px-4">09:00</td>
+          <td class="py-2 px-4">61 psi</td>
+          <td class="py-2 px-4 text-red-400">7 L/min</td>
+          <td class="py-2 px-4">57 %</td>
+          <td class="py-2 px-4">374 kWh</td>
+          <td class="py-2 px-4"><a href="/cilindros/formulario" class="text-blue-400 hover:underline">Registrar</a></td>
+          <td class="py-2 px-4 text-red-400">Flujo bajo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MODALES -->
+
+  <!-- Modal Oxígeno -->
+  <div id="modal-oxigeno" class="sigr-modal">
+    <div class="sigr-modal-content">
+      <button class="sigr-modal-close">&times;</button>
+      <h3 class="text-xl font-bold mb-4">Tanques de Oxígeno – Detalles</h3>
+      <table class="w-full text-white text-sm mb-4">
+        <thead>
+          <tr class="bg-white/10">
+            <th class="py-2 px-3">Parámetro</th>
+            <th class="py-2 px-3">Tanque A</th>
+            <th class="py-2 px-3">Tanque B</th>
+            <th class="py-2 px-3">Unidad</th>
           </tr>
         </thead>
         <tbody>
-          {% for r in registros %}
           <tr class="border-b border-white/10">
-            <td class="py-2 px-4">{{ r.hora }}</td><td class="py-2 px-4">{{ r.presion }} psi</td><td class="py-2 px-4 {% if r.flujo < flujo_minimo %}text-red-400{% endif %}">{{ r.flujo }} L/min</td><td class="py-2 px-4">{{ r.nivel }}%</td><td class="py-2 px-4">{{ r.consumo }} kWh</td><td class="py-2 px-4"><a href="{{ url_for('cilindros.formulario') }}" class="text-blue-400 hover:underline">Registrar</a></td><td class="py-2 px-4 {% if r.flujo < flujo_minimo %}text-red-400{% endif %}">{{ r.observacion }}</td>
+            <td class="py-2 px-3">Presión</td>
+            <td class="py-2 px-3 value" data-param="pressA"></td>
+            <td class="py-2 px-3 value" data-param="pressB"></td>
+            <td class="py-2 px-3">PSIG</td>
           </tr>
-          {% endfor %}
+          <tr class="border-b border-white/10">
+            <td class="py-2 px-3">Flujo</td>
+            <td class="py-2 px-3 value" data-param="flowA"></td>
+            <td class="py-2 px-3 value" data-param="flowB"></td>
+            <td class="py-2 px-3">L/min</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-3">Nivel</td>
+            <td class="py-2 px-3 value" data-param="levelA"></td>
+            <td class="py-2 px-3 value" data-param="levelB"></td>
+            <td class="py-2 px-3">%</td>
+          </tr>
         </tbody>
       </table>
+      <div class="text-right">
+        <a href="/historico/oxigeno" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+          Ver histórico & gráficos
+        </a>
+      </div>
     </div>
   </div>
-{% endblock %}
+
+  <!-- Modal Agua -->
+  <div id="modal-agua" class="sigr-modal">
+    <div class="sigr-modal-content">
+      <button class="sigr-modal-close">&times;</button>
+      <h3 class="text-xl font-bold mb-4">Detalle: Nivel Agua</h3>
+      <table class="w-full text-white text-sm mb-4">
+        <thead>
+          <tr class="bg-white/10">
+            <th class="py-2 px-4">Hora</th>
+            <th class="py-2 px-4">%</th>
+            <th class="py-2 px-4">Obs.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-white/10"><td class="py-2 px-4">08:00</td><td class="py-2 px-4">60</td><td class="py-2 px-4">OK</td></tr>
+          <tr><td class="py-2 px-4">09:00</td><td class="py-2 px-4 text-yellow-300">59</td><td class="py-2 px-4">Advertencia</td></tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <a href="/historico/agua" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+          Ver histórico & gráficos
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Eléctrico -->
+  <div id="modal-electrico" class="sigr-modal">
+    <div class="sigr-modal-content">
+      <button class="sigr-modal-close">&times;</button>
+      <h3 class="text-xl font-bold mb-4">Formato de Toma Tarifa H-M</h3>
+      <table class="w-full text-white text-sm mb-4">
+        <thead>
+          <tr class="bg-white/10"><th class="py-2 px-3">Concepto</th><th class="py-2 px-3">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr data-concept="A_KWH_D" class="border-b border-white/10"><td class="py-2 px-3">A KWH D</td><td class="py-2 px-3 value-cell"></td></tr>
+          <tr data-concept="A_MAX_KW_D" class="border-b border-white/10"><td class="py-2 px-3">A MAX KW D</td><td class="py-2 px-3 value-cell"></td></tr>
+          <tr data-concept="A_TIME" class="border-b border-white/10"><td class="py-2 px-3">TIME (A)</td><td class="py-2 px-3 value-cell"></td></tr>
+          <tr data-concept="B_KWH_D" class="border-b border-white/10"><td class="py-2 px-3">B KWH D</td><td class="py-2 px-3 value-cell"></td></tr>
+          <tr data-concept="B_MAX_KW_D" class="border-b border-white/10"><td class="py-2 px-3">B MAX KW D</td><td class="py-2 px-3 value-cell"></td></tr>
+          <tr data-concept="B_TIME" class="border-b border-white/10"><td class="py-2 px-3">TIME (B)</td><td class="py-2:px-3 value-cell"></td></tr>
+          <tr data-concept="C_KWH_D" class="border-b border-white/10"><td class="py-2:px-3">C KWH D</td><td class="py-2:px-3 value-cell"></td></tr>
+          <tr data-concept="C_MAX_KW_D" class="border-b border-white/10"><td class="py-2:px-3">C MAX KW D</td><td class="py-2:px-3 value-cell"></td></tr>
+          <tr data-concept="C_TIME" class="border-b border-white/10"><td class="py-2:px-3">C TIME</td><td class="py-2:px-3 value-cell"></td></tr>
+          <tr data-concept="TOTAL_KWH_D" class="border-b border-white/10"><td class="py-2:px-3">KWH D Total</td><td class="py-2:px-3 value-cell"></td></tr>
+          <tr data-concept="KVARH_D"><td class="py-2:px-3">KVARH D</td><td class="py-2:px-3 value-cell"></td></tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <a href="/historico/consumo" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+          Ver histórico & gráficos
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cilindros -->
+  <div id="modal-cilindros" class="sigr-modal">
+    <div class="sigr-modal-content">
+      <button class="sigr-modal-close">&times;</button>
+      <h3 class="text-xl font-bold mb-4">Registro de Cilindros</h3>
+      <p class="mb-4">Para registrar un nuevo cilindro, haz clic en el siguiente botón:</p>
+      <div class="text-right">
+        <a href="/cilindros/formulario" class="inline-block px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded">
+          Abrir formulario de cilindros
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos Oxígeno
+    const oxData = {
+      pressA: 48, pressB: 62,
+      flowA: 150, flowB: 148,
+      levelA: 35, levelB: 104
+    };
+    // Datos H-M
+    const hmReadings = {
+      A_KWH_D: 371, A_MAX_KW_D: 12.7, A_TIME: '09:30',
+      B_KWH_D: 373, B_MAX_KW_D: 12.9, B_TIME: '09:45',
+      C_KWH_D: 372, C_MAX_KW_D: 12.8, C_TIME: '09:40',
+      TOTAL_KWH_D: 371+373+372, KVARH_D: 250
+    };
+
+    document.querySelectorAll('[data-modal-target]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const tgt = el.dataset.modalTarget;
+        if (tgt === 'modal-oxigeno') {
+          document.querySelectorAll('#modal-oxigeno .value').forEach(cell=>{
+            cell.textContent = oxData[cell.dataset.param] ?? '—';
+          });
+        }
+        if (tgt === 'modal-agua') {
+          // Agua ya renderizado estático
+        }
+        if (tgt === 'modal-electrico') {
+          document.querySelectorAll('#modal-electrico .value-cell').forEach(td=>{
+            td.textContent = hmReadings[td.parentElement.dataset.concept] ?? '—';
+          });
+        }
+        document.getElementById(tgt).classList.add('is-open');
+      });
+    });
+    document.querySelectorAll('.sigr-modal-close').forEach(btn=>{
+      btn.addEventListener('click', ()=> btn.closest('.sigr-modal').classList.remove('is-open'));
+    });
+    document.querySelectorAll('.sigr-modal').forEach(modal=>{
+      modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('is-open'); });
+    });
+  </script>
+
+</body>
+</html>
