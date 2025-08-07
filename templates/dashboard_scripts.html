@@ -1,0 +1,42 @@
+<script>
+  // Datos simulados / cargados desde la view
+  const oxData = {
+    pressA: {{ registros[0].presion if registros else 0 }},
+    pressB: {{ registros[1].presion if registros|length > 1 else 0 }},
+    flowA: {{ registros[0].flujo if registros else 0 }},
+    flowB: {{ registros[1].flujo if registros|length > 1 else 0 }},
+    levelA: {{ registros[0].nivel if registros else 0 }},
+    levelB: {{ registros[1].nivel if registros|length > 1 else 0 }}
+  };
+  const hmReadings = {
+    A_KWH_D: {{ registros[0].consumo if registros else 0 }},
+    B_KWH_D: {{ registros[1].consumo if registros|length > 1 else 0 }},
+    C_KWH_D: {{ registros[2].consumo if registros|length > 2 else 0 }},
+    TOTAL_KWH_D: {{ registros|sum(attribute='consumo') }},
+  };
+
+  document.querySelectorAll('[data-modal-target]').forEach(el => {
+    el.addEventListener('click', () => {
+      const tgt = el.dataset.modalTarget;
+      if (tgt === 'modal-oxigeno') {
+        document.querySelectorAll('#modal-oxigeno .value').forEach(cell => {
+          cell.textContent = oxData[cell.dataset.param] ?? '—';
+        });
+      }
+      if (tgt === 'modal-electrico') {
+        document.querySelectorAll('#modal-electrico .value-cell').forEach(td => {
+          td.textContent = hmReadings[td.parentElement.dataset.concept] ?? '—';
+        });
+      }
+      document.getElementById(tgt).classList.add('is-open');
+    });
+  });
+
+  document.querySelectorAll('.sigr-modal-close').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.sigr-modal').classList.remove('is-open'));
+  });
+
+  document.querySelectorAll('.sigr-modal').forEach(modal => {
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('is-open'); });
+  });
+</script>
